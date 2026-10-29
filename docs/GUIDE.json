@@ -1,0 +1,83 @@
+{
+  "title": "International Fixed Calendar",
+  "intro": "A proposed calendar with thirteen identical four-week months, created to make dates and weekdays follow a predictable pattern.",
+  "summary": "Thirteen months of 28 days, totalling 364 regular days, plus a year-end day outside the normal weekly sequence and an extra leap-day when applicable.",
+  "origin": "Moses B. Cotsworth promoted the International Fixed Calendar in the early 1900s. The proposal was used by some organisations but never became a global civil calendar.",
+  "ring_label": "13",
+  "ring_caption": "MONTHS",
+  "diagram_title": "THIRTEEN EQUAL FOUR-WEEK MONTHS",
+  "structure": "Each month has exactly four seven-day weeks. A thirteenth month named Sol is inserted between June and July.",
+  "diagram_caption": "13 × 28 DAYS + INTERCALARY DAY(S)",
+  "sections": [
+    {
+      "name": "January",
+      "days": "28",
+      "special": false
+    },
+    {
+      "name": "February",
+      "days": "28",
+      "special": false
+    },
+    {
+      "name": "March",
+      "days": "28",
+      "special": false
+    },
+    {
+      "name": "April",
+      "days": "28",
+      "special": false
+    },
+    {
+      "name": "May",
+      "days": "28",
+      "special": false
+    },
+    {
+      "name": "June",
+      "days": "28",
+      "special": false
+    },
+    {
+      "name": "Sol",
+      "days": "28",
+      "special": true
+    },
+    {
+      "name": "July",
+      "days": "28",
+      "special": false
+    },
+    {
+      "name": "August",
+      "days": "28",
+      "special": false
+    },
+    {
+      "name": "September",
+      "days": "28",
+      "special": false
+    },
+    {
+      "name": "October",
+      "days": "28",
+      "special": false
+    },
+    {
+      "name": "November",
+      "days": "28",
+      "special": false
+    },
+    {
+      "name": "December",
+      "days": "28",
+      "special": false
+    }
+  ],
+  "pattern_note": "Leap Day and Year Day sit outside the repeated seven-day week. The main monthly dates therefore keep consistent weekday patterns.",
+  "history": "The design aimed to simplify business, budgeting and annual planning because every standard month has the same length. Many traditions objected to calendar reforms that interrupted the seven-day weekly cycle.",
+  "example": "In the proposal, the month Sol follows June and precedes July. Its first day begins another four-week, 28-day block.",
+  "limits": "This is the Cotsworth calendar proposal, not the civil system used by all countries. The extra days and special weekday treatment are features of the proposal rather than Gregorian dates.",
+  "source": "https://github.com/Infiltrator-Projects/Calendar-International-Fixed"
+}
