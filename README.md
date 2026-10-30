@@ -14,7 +14,7 @@ The provider owns fields, localized formatting, period starts and navigation. Fi
 
 **Independent source, native installation and releases.** This repository contains the implementation of `international-fixed`, the supporting code it needs, a one-provider `Makefile` and focused regression fixtures. The copy is based on Common 1.19.78 at `8d60662114e3`; the original Common source remains unchanged.
 
-Run `make` to produce `build/International Fixed Calendar.so` and `make check` to run this provider's checks. No Common checkout or Common archive is required. Independent releases now provide a portable amd64 Debian package, a hardware-native source installer and the complete source ZIP. The original Common source is retained.
+Run `make` to produce `build/International Fixed Calendar.so` and `make check` to run this provider's checks. Builds consume the pinned Common submodule and its shared native tooling. Independent releases now provide a portable amd64 Debian package, a hardware-native source installer and the complete source ZIP. The original Common source is retained.
 
 See [source provenance and build details](SOURCE.md), [source manifest](SOURCE-MANIFEST.json) and [recorded validation](VALIDATION-RESULTS.json).
 
