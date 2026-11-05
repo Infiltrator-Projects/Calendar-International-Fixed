@@ -50,4 +50,4 @@ Translations use the provider-owned gettext domain `infiltrator-calendar-interna
 
 ## Illustrated user documentation
 
-The native package installs exactly two provider files: `International Fixed Calendar.so` and `International Fixed Calendar.pdf`. Translations are embedded in the module; build/source/validation records remain in GitHub and Debian control metadata.
+The native package installs exactly two provider files: `International Fixed Calendar.so` and `Calendar-International-Fixed.pdf`. Translations are embedded in the module; build/source/validation records remain in GitHub and Debian control metadata.

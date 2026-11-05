@@ -39,7 +39,7 @@ jobs:
           test "$(dpkg-query -W -f='${Status}' "$pkg")" = 'install ok installed'
           test "$(dpkg-query -W -f='${Version}' "$pkg")" = "$(cat VERSION)+native1"
           test -f "/System/Resources/Calendars/$name.so"
-          test -f "/System/Resources/Documentation/$repo/$name.pdf"
+          test -f "/System/Resources/Documentation/$repo.pdf"
           test "$(dpkg-query -W -f='${X-Infiltrator-PGO}' "$pkg")" = 'trained-two-pass'
           test "$(dpkg-query -W -f='${X-Infiltrator-Resource-SHA256}' "$pkg")" = "$(sha256sum "/System/Resources/Calendars/$name.so" | cut -d' ' -f1)"
           test "$(find dist -maxdepth 1 -type f | wc -l)" -eq 3

@@ -346,7 +346,7 @@
       "selected_definitions": []
     }
   ],
-  "copy_method": "Prior source copy is historical. Active builds link actual Common 1.19.80.",
+  "copy_method": "Prior source copy is historical. Active builds link actual Common 1.19.81.",
   "verification": {
     "repository": "Calendar-International-Fixed",
     "compared_observations": 883,
@@ -361,8 +361,8 @@
   "common_dependency": {
     "type": "git-submodule",
     "path": "common",
-    "revision": "7499fb1c81d95a11a06224c9a33c19bb71bd996d",
-    "version": "1.19.80",
+    "revision": "a99ef676b0e43c7e645c81756e3fd38be0a54406",
+    "version": "1.19.81",
     "linkage": "static"
   }
 }
