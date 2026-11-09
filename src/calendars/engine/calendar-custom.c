@@ -1,23 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 1993-2026 Shannon Smith
 
-/*
- * Private non-ICU chronology descriptors.
- *
- * Every custom calendar is described by one immutable operation table.  The
- * resource ABI adapter never needs to know whether a period is a Julian
- * month, ISO week, Maya uinal or Badíʿ month: it asks the provider to
- * convert JDN <-> fields, format the fields and navigate periods.
- *
- * The table is intentionally data-driven.  Adding a new custom calendar means
- * supplying its small set of operations and registering one descriptor; it
- * does not require extending a collection of central switch statements.
- *
- * Navigation preserves the displayed day when possible and clamps it only
- * when the destination period is shorter.  Fixed-size period calendars can
- * bypass field conversion entirely, which keeps ISO-week and Mayan navigation
- * both simpler and less error-prone.
- */
+/* International Fixed chronology over Gregorian years.
+ * Its 13 named months and exceptional Leap/Year Days use one descriptor. */
 
 #include "calendar-custom.h"
 #include "calendar-ancient.h"
@@ -30,10 +15,7 @@
 
 #include <glib/gi18n-lib.h>
 
-/* The generic engine tests compile all descriptor families. Each standalone
- * resource compiles only its own family, with unrelated helpers excluded by
- * the same preprocessor selection as its descriptor. No warning suppression
- * is needed, and the compiler can still detect accidental unused functions. */
+/* Only this chronology is compiled into the standalone calendar resource. */
 
 typedef CalendarCalendarMode CalendarMode;
 typedef CalendarCalendarFields CalendarFields;
@@ -55,21 +37,11 @@ typedef struct
     PeriodIndexFunc period_index;
     MonthFromPeriodFunc month_from_period;
     gint periods_per_year;
-    gint fixed_period_days;
-    gint fixed_year_days;
     gint period_origin_day;
-    gboolean clamp_iso_weeks;
 } CustomCalendarProvider;
 
 #define floor_divide calendar_floor_divide
 #define positive_modulo calendar_positive_modulo
-#define gregorian_is_leap calendar_gregorian_is_leap
-#define gregorian_to_jdn calendar_gregorian_to_jdn
-#define jdn_to_gregorian calendar_jdn_to_gregorian
-#define julian_to_jdn calendar_julian_to_jdn
-#define jdn_to_julian calendar_jdn_to_julian
-#define gregorian_day_of_year calendar_gregorian_day_of_year
-#define iso_weekday calendar_iso_weekday
 
 static const gchar *const fixed_months[] = {
     "", N_("January"), N_("February"), N_("March"), N_("April"),
@@ -115,31 +87,20 @@ format_fixed(const CalendarFields *fields,
     return calendar_format_named_date(fields, part, fixed_months, G_N_ELEMENTS(fixed_months), NULL);
 }
 
-/*
- * Sparse, mode-indexed provider registry.  Empty slots correspond to ICU
- * calendars and are intentionally rejected by custom_provider().
- */
-static const CustomCalendarProvider custom_providers[CALENDAR_CALENDAR_MODE_COUNT] = {
-    [CALENDAR_CALENDAR_MODE_INTERNATIONAL_FIXED] = {
-        calendar_fixed_fields_from_jdn,
-        calendar_fixed_fields_to_jdn,
-        fixed_month_length, format_fixed,
-        default_period_index, default_month_from_period,
-        13, 0, 0, 1, FALSE
-    },
+/* Only the International Fixed mode is valid for this standalone provider. */
+static const CustomCalendarProvider fixed_provider = {
+    calendar_fixed_fields_from_jdn,
+    calendar_fixed_fields_to_jdn,
+    fixed_month_length, format_fixed,
+    default_period_index, default_month_from_period,
+    13, 1
 };
 
 static const CustomCalendarProvider *
 custom_provider(CalendarMode mode)
 {
-    (void)mode;
-    const CustomCalendarProvider *provider;
-
-    if (mode < 0 || mode >= CALENDAR_CALENDAR_MODE_COUNT)
-        return NULL;
-
-    provider = &custom_providers[mode];
-    return provider->fields_from_jdn != NULL ? provider : NULL;
+    return mode == CALENDAR_CALENDAR_MODE_INTERNATIONAL_FIXED
+        ? &fixed_provider : NULL;
 }
 
 void
@@ -183,7 +144,6 @@ calendar_custom_month_start(CalendarMode mode,
         return CALENDAR_UNIX_EPOCH_JDN;
 
     provider->fields_from_jdn(jdn, &fields);
-    ;
     fields.day = provider->period_origin_day;
     return provider->fields_to_jdn(&fields);
 }
@@ -202,10 +162,8 @@ calendar_custom_add_months(CalendarMode mode,
     if (provider == NULL)
         return jdn;
 
-    ;
 
     provider->fields_from_jdn(jdn, &fields);
-    ;
     period = provider->period_index(fields.month);
     serial = calendar_i64_add_saturating(
         calendar_i64_add_saturating(
@@ -233,12 +191,9 @@ calendar_custom_add_years(CalendarMode mode,
     if (provider == NULL)
         return jdn;
 
-    ;
 
     provider->fields_from_jdn(jdn, &fields);
-    ;
     fields.year = calendar_i64_add_saturating(fields.year, amount);
-    ;
     fields.day = MIN(fields.day, provider->month_length(&fields));
 
     return provider->fields_to_jdn(&fields);

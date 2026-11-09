@@ -104,12 +104,11 @@ static bool format(const InfiltratrTemporalCalendarProvider *self,
     char *buffer, size_t capacity, size_t *length)
 {
     gchar *text;
-    CalendarCalendarFields validated_fields;
-    (void)self;
+    InfiltratrTemporalCalendarFields checked{};
     if (buffer == NULL || capacity == 0U ||
         part < INFILTRATR_TEMPORAL_CALENDAR_DATE_PART_DAY ||
         part > INFILTRATR_TEMPORAL_CALENDAR_DATE_PART_FULL ||
-        !native.fields_from_jdn(&native, jdn, &validated_fields))
+        !fields(self, jdn, &checked))
         return false;
     /* Field conversion owns supported chronology. Formatting must not ask
      * ICU to invent dates outside a bounded arithmetic provider's range. */
@@ -125,24 +124,22 @@ static bool format(const InfiltratrTemporalCalendarProvider *self,
 static bool start(const InfiltratrTemporalCalendarProvider *self,
     int64_t jdn, int64_t *result)
 {
-    CalendarCalendarFields value;
     InfiltratrTemporalCalendarFields checked{};
     if (result == nullptr || !fields(self,jdn,&checked))
         return false;
     const int64_t candidate=native.period_start(&native,jdn);
-    if (!native.fields_from_jdn(&native,candidate,&value)) return false;
+    if (!fields(self,candidate,&checked)) return false;
     *result=candidate;
     return true;
 }
 static bool navigate(const InfiltratrTemporalCalendarProvider *self,
     int64_t jdn,int32_t amount,int64_t *result,ResourceNavigateFunc operation)
 {
-    CalendarCalendarFields value;
     InfiltratrTemporalCalendarFields checked{};
     if (result == nullptr || !fields(self,jdn,&checked))
         return false;
     const int64_t candidate=operation(&native,jdn,amount);
-    if (!native.fields_from_jdn(&native,candidate,&value)) return false;
+    if (!fields(self,candidate,&checked)) return false;
     *result=candidate;
     return true;
 }
